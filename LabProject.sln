@@ -1,25 +1,51 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.7.34202.233
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabProject", "LabProject.csproj", "{9611066C-E163-45A9-94F5-4E2F840E72F6}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9611066C-E163-45A9-94F5-4E2F840E72F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9611066C-E163-45A9-94F5-4E2F840E72F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9611066C-E163-45A9-94F5-4E2F840E72F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9611066C-E163-45A9-94F5-4E2F840E72F6}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B4479586-52A6-437D-BEB4-BCA2CC1733F3}
-	EndGlobalSection
-EndGlobal
+namespace LabProject;
+
+internal static class Program
+{
+    public static void Main(string[] args)
+    {
+        Console.WriteLine("Введите длину массива: ");
+        var length = Console.ReadLine();
+        Console.WriteLine("Введите первый элемент массива: ");
+        var first = Console.ReadLine();
+        Console.WriteLine("Введите значение шага элементов массива: ");
+        var step = Console.ReadLine();
+        if (!int.TryParse(length, out var arrLength) ||
+            !int.TryParse(first, out var firstElement) ||
+            !int.TryParse(step, out var elementIncrement))
+        {
+            Console.WriteLine("Введены неверные значения");
+            return;
+        }
+        var array = GetArray(arrLength, firstElement, elementIncrement);
+        var average = CalculateAverageWithFor(array);
+        Console.WriteLine($"Среднее арифметическое массива длиной {arrLength}, первым элементом {firstElement} и шагом значений {elementIncrement} равно {average}");
+    }
+    private static int[] GetArray(int arrLength, int firstElement, int elementIncrement)
+    {
+        var array = new int[arrLength];
+        for (int i = 0; i < arrLength; i++)
+        {
+            array[i] = firstElement;
+            firstElement += elementIncrement;
+        }
+        return array;
+    }
+    private static double CalculateAverageWithFor(int[] array)
+    {
+        var average = 0;
+        if (array.Length == 0) return average;
+        var sum = 0;
+        for (int i = 0; i < array.Length; i++)
+        {
+            sum += array[i];
+        }
+        average = sum / array.Length;
+        return average;
+    }
+    private static double CalculateAverageWithLinq(int[] array)
+    {
+        var average = array.Average();
+        return average;
+    }
+}
